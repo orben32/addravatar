@@ -16,7 +16,7 @@ const path = require('path');
       extensions: [ '.tsx', '.ts', '.js' ],
     },
     output: {
-      filename: 'bundle.js',
+      filename: 'main.js',
       path: path.resolve(__dirname, 'dist'),
     },
   };
