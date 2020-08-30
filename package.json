@@ -1,0 +1,8 @@
+{
+  "name": "addravatar",
+  "version": "1.0.0",
+  "description": "Chrome extension for bitcoin address verification",
+  "main": "index.js",
+  "author": "orben32",
+  "license": "MIT"
+}
