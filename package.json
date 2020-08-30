@@ -4,5 +4,10 @@
   "description": "Chrome extension for bitcoin address verification",
   "main": "index.js",
   "author": "orben32",
-  "license": "MIT"
+  "private": "true",
+  "license": "MIT",
+  "devDependencies": {
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
+  }
 }
