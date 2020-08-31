@@ -18,9 +18,13 @@ function filterAncestors(nodes: Element[]) {
     return nodes;
 }
 
+function doesNodeMatch(node: Element) {
+    return matchesBitcoinAddress(node.textContent) || matchesBitcoinAddress((node as HTMLInputElement).value);
+}
+
 export function findAddressNodes(root: Element): Element[] {
     const allChildren = Array.from(root.querySelectorAll('*'));
     const allNodes = [root, ...allChildren];
-    const matchingNodes = allNodes.filter(node => matchesBitcoinAddress(node.textContent));
+    const matchingNodes = allNodes.filter(node => doesNodeMatch(node));
     return filterAncestors(matchingNodes);
 }
