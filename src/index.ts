@@ -1,3 +1,5 @@
+import { findAddressNodes } from "./nodeQueries";
+
 function component() {
     const element = document.createElement('div');
 
@@ -9,3 +11,6 @@ function component() {
   document.body.appendChild(component());
 
   console.log('hello');
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (window as any).findAddressElements = () => findAddressNodes(document.body);
