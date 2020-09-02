@@ -3,7 +3,7 @@ import { matchesBitcoinAddress } from "../src/addressMatcher";
 describe('addressMatcher', () => {
     describe('matchesBitcoinAddress', () => {
         describe('when a valid address', () => {
-            const VALID_ADDRESSES = ['1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2', '3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy']
+            const VALID_ADDRESSES = ['1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2', '3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy', '3Gy4rReQQSw1bz3fqZVq2wTdUfHR4PSJPX']
             it('should return true', () => {
                 for (const address of VALID_ADDRESSES) {
                     expect(matchesBitcoinAddress(address)).toBe(true);               
