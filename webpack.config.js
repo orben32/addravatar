@@ -1,8 +1,17 @@
 const path = require('path');
+const baseManifest = require("./chrome/manifest.json");
+const WebpackExtensionManifestPlugin = require("webpack-extension-manifest-plugin");
 
   module.exports = {
     entry: './src/index.ts',
     devtool: 'inline-source-map',
+    plugins: [
+      new WebpackExtensionManifestPlugin({
+        config: {
+          base: baseManifest
+        }
+      })
+    ],
     module: {
       rules: [
         {

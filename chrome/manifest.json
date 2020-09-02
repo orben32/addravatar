@@ -1,0 +1,17 @@
+{
+  "name": "Addravatar2",
+  "content_scripts": [
+    {
+      "js": [
+        "main.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
+  "permissions": [ "activeTab" ],
+  "version": "1.0",
+  "description": "Easily verify bitcoin address equality by assigning each address an avatar",
+  "manifest_version": 2
+}
