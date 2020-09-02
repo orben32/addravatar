@@ -8,14 +8,16 @@ export function createAvatarElement(addressElement: HTMLElement): Element {
     img.style.position = 'absolute';
     const clientRect = addressElement.getBoundingClientRect();
     img.style.left = createPixelValue(clientRect.left + clientRect.width + 4);
-    img.style.top = createPixelValue(clientRect.top - 3);
+    const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    img.style.top = createPixelValue(clientRect.top - 3 + scrollTop);
     img.style.width = createPixelValue(25);
+    img.style.zIndex = '9999';
 
     return img;
 }
 
 export function addAvatarElement(addressElement: HTMLElement): Element {
     const avatarElement = createAvatarElement(addressElement);
-    addressElement.parentElement.appendChild(avatarElement);
+    document.body.appendChild(avatarElement);
     return avatarElement;
 }
