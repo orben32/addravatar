@@ -1,6 +1,7 @@
 const path = require('path');
 const baseManifest = require("./chrome/manifest.json");
 const WebpackExtensionManifestPlugin = require("webpack-extension-manifest-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
   module.exports = {
     entry: './src/index.ts',
@@ -10,7 +11,13 @@ const WebpackExtensionManifestPlugin = require("webpack-extension-manifest-plugi
         config: {
           base: baseManifest
         }
-      })
+      }),
+      new CopyPlugin({
+        patterns: [
+          { from: 'chrome/background.js', to: 'myBackground.js' },
+        ],
+  
+      }),
     ],
     module: {
       rules: [
