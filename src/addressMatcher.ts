@@ -1,3 +1,3 @@
 export function matchesBitcoinAddress(str: string): boolean {
-    return str && !!str.match(/^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$/);
+    return str && !!str.match(/^(bc1|[13])[a-zA-HJ-NP-Z0-9]{25,39}$/);
 }
