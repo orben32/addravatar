@@ -1,36 +1,37 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { findAddressNodes } from "./nodeQueries";
-import { createAvatarSource } from "./avatarSourceFactory";
-import { createAvatarElement, addAvatarElement } from "./avatarElementFactory";
+import { addAvatarElement } from "./avatarElementFactory";
 
-function removeAvatars(elements: Element[]) {
-  for (const element of elements) {
-    element.parentElement.removeChild(element);
-  }
+function createExtension() {
+  let avatars: Element[];
+  let showAvatars = false;
+
+  function removeAvatars() {
+    if (avatars) {
+      for (const element of avatars) {
+        element.parentElement.removeChild(element);
+      }
+    }
+    avatars = null;
+  }  
+
+  const addAvatars = function() {
+    if (avatars) {
+      removeAvatars();
+    }
+    const elements = findAddressNodes(document.body);
+    avatars = elements.map(e => addAvatarElement(e as HTMLElement));
+  };
+
+  window.chrome.runtime.onMessage.addListener((msg) => {
+    if (msg.action == 'add_avatars') {
+      showAvatars = !showAvatars;
+      if (showAvatars) {
+        addAvatars();
+      } else {
+        removeAvatars();
+      }
+    }
+  });
 }
 
-console.log('hello');
-
-let avatars: Element[];
-
-(window as any).findAddressElements = () => findAddressNodes(document.body);
-
-(window as any).createAvatarSource = createAvatarSource;
-
-(window as any).createAvatarElement = createAvatarElement;
-
-(window as any).addAvatarElement = addAvatarElement;
-
-(window as any).addAvatars = function() {
-  if (avatars) {
-    removeAvatars(avatars);
-  }
-  const elements = findAddressNodes(document.body);
-  avatars = elements.map(e => addAvatarElement(e as HTMLElement));
-};
-
-(window as any).chrome.runtime.onMessage.addListener((msg: any) => {
-  if (msg.action == 'add_avatars') {
-    (window as any).addAvatars();
-  }
-});
+createExtension();
