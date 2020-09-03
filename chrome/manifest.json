@@ -1,5 +1,6 @@
 {
-  "name": "Addravatar2",
+  "name": "Addravatar",
+  "version": "1.0",
   "content_scripts": [
     {
       "js": [
@@ -10,8 +11,16 @@
       ]
     }
   ],
-  "permissions": [ "activeTab" ],
-  "version": "1.0",
+  "permissions": [
+    "activeTab"
+  ],
+  "browser_action": {},
+  "background": {
+    "persistent": false,
+    "scripts": [
+      "myBackground.js"
+    ]
+  },
   "description": "Easily verify bitcoin address equality by assigning each address an avatar",
   "manifest_version": 2
 }

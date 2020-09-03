@@ -29,4 +29,8 @@ let avatars: Element[];
   avatars = elements.map(e => addAvatarElement(e as HTMLElement));
 };
 
-(window as any).addAvatars();
+(window as any).chrome.runtime.onMessage.addListener((msg: any) => {
+  if (msg.action == 'add_avatars') {
+    (window as any).addAvatars();
+  }
+});
