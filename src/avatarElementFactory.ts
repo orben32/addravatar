@@ -13,6 +13,14 @@ export function createAvatarElement(addressElement: HTMLElement): Element {
     img.style.width = createPixelValue(25);
     img.style.zIndex = '9999';
 
+    img.addEventListener('mouseenter', e => {
+        (e.target as HTMLElement).style.width = createPixelValue(50);
+    });
+
+    img.addEventListener('mouseleave', e => {
+        (e.target as HTMLElement).style.width = createPixelValue(25);
+    });
+
     return img;
 }
 
