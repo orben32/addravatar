@@ -1,4 +1,5 @@
 import { matchesBitcoinAddress } from "./addressMatcher";
+import { getText } from "./textGetters";
 
 function filterAncestorsByNode(node: Element, nodes: Element[]) {
     if (node) {
@@ -18,21 +19,8 @@ function filterAncestors(nodes: Element[]) {
     return nodes;
 }
 
-type TextValueGetter = (node: Element) => string;
-
-function getTextValueGetters(): TextValueGetter[] {
-    return [
-        (node: Element) => node.textContent,
-        (node: Element) => (node as HTMLInputElement).value,
-    ];
-}
-
 function doesNodeMatch(node: Element) {
-    const getters = getTextValueGetters();
-    return getters.some(valueGetter => {
-        const textValue = valueGetter(node);
-        return matchesBitcoinAddress(textValue?.trim());
-    });
+    return matchesBitcoinAddress(getText(node));
 }
 
 export function findAddressNodes(root: Element): Element[] {

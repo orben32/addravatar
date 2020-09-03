@@ -1,4 +1,5 @@
 import { createAvatarSource } from "./avatarSourceFactory";
+import { getText } from "./textGetters";
 
 const createPixelValue = (value: number) => `${value}px`;
 
@@ -7,7 +8,7 @@ const zIndex = 9999;
 
 export function createAvatarElement(addressElement: HTMLElement): Element {
     const img = document.createElement('img');
-    img.src = createAvatarSource((addressElement as HTMLInputElement).value || addressElement.textContent);
+    img.src = createAvatarSource(getText(addressElement));
     img.style.position = 'absolute';
     const clientRect = addressElement.getBoundingClientRect();
     img.style.left = createPixelValue(clientRect.left + clientRect.width + 4);
