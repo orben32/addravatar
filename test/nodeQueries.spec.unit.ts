@@ -15,6 +15,15 @@ describe('nodeQueries', () => {
             expect(divIds).toEqual(['myAddressDiv']);
         });
 
+        it('should return div when given a div with valid address and white spaces', () => {
+            const parentDiv = document.createElement('div');
+            parentDiv.id = "shouldBeFilteredOut";
+            parentDiv.innerHTML = `<div id="myAddressDiv">   3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy     </div>`;
+
+            const divIds = findAddressNodes(parentDiv.children[0]).map(node => node.id);
+            expect(divIds).toEqual(['myAddressDiv']);
+        });
+
         it('should return input when given a input with valid address value', () => {
             const parentDiv = document.createElement('div');
             parentDiv.id = "shouldBeFilteredOut";

@@ -18,8 +18,21 @@ function filterAncestors(nodes: Element[]) {
     return nodes;
 }
 
+type TextValueGetter = (node: Element) => string;
+
+function getTextValueGetters(): TextValueGetter[] {
+    return [
+        (node: Element) => node.textContent,
+        (node: Element) => (node as HTMLInputElement).value,
+    ];
+}
+
 function doesNodeMatch(node: Element) {
-    return matchesBitcoinAddress(node.textContent) || matchesBitcoinAddress((node as HTMLInputElement).value);
+    const getters = getTextValueGetters();
+    return getters.some(valueGetter => {
+        const textValue = valueGetter(node);
+        return matchesBitcoinAddress(textValue?.trim());
+    });
 }
 
 export function findAddressNodes(root: Element): Element[] {
