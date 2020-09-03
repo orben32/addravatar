@@ -22,7 +22,7 @@ function createExtension() {
     avatars = elements.map(e => addAvatarElement(e as HTMLElement));
   };
 
-  window.chrome.runtime.onMessage.addListener((msg) => {
+  window.chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     if (msg.action == 'add_avatars') {
       showAvatars = !showAvatars;
       if (showAvatars) {
@@ -31,6 +31,7 @@ function createExtension() {
         removeAvatars();
       }
     }
+    sendResponse({ok: true});
   });
 }
 
