@@ -1,31 +1,19 @@
 import { matchesBitcoinAddress } from "./addressMatcher";
 import { getText } from "./textGetters";
 
-function filterAncestorsByNode(node: Element, nodes: Element[]) {
-    if (node) {
-        const index = nodes.indexOf(node);
-        if(index !== -1) {
-            nodes.splice(index, 1);
+function findAdressNodesRecursive(node: Node, addressNodes: Node[]): void {
+    if (matchesBitcoinAddress(getText(node))) {
+        addressNodes.push(node);
+    } else {
+        for (const childNode of Array.from(node.childNodes)) {
+            findAdressNodesRecursive(childNode, addressNodes);
         }
-        filterAncestorsByNode(node.parentElement, nodes);
     }
-}
-
-function filterAncestors(nodes: Element[]) {
-    const originalNodes = [...nodes];
-    for (const node of originalNodes) {
-        filterAncestorsByNode(node.parentElement, nodes);
-    }
-    return nodes;
-}
-
-function doesNodeMatch(node: Element) {
-    return matchesBitcoinAddress(getText(node));
 }
 
 export function findAddressNodes(root: Element): Element[] {
-    const allChildren = Array.from(root.querySelectorAll('*'));
-    const allNodes = [root, ...allChildren];
-    const matchingNodes = allNodes.filter(node => doesNodeMatch(node));
-    return filterAncestors(matchingNodes);
+    const nodes: Element[] = [];
+    findAdressNodesRecursive(root, nodes);
+
+    return nodes;
 }
