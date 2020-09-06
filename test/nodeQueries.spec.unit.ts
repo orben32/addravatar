@@ -1,5 +1,11 @@
 import { findAddressNodes } from "../src/nodeQueries";
 
+function createElement(html: string): Element {
+    const parentDiv = document.createElement('div');
+    parentDiv.innerHTML = html;
+    return parentDiv.children[0];
+}
+
 describe('nodeQueries', () => {
     describe('findAddressNodes', () => {
         it('should return empty array when no valid address content exists', () => {
@@ -7,48 +13,36 @@ describe('nodeQueries', () => {
         });
 
         it('should return text node when given a div with valid address', () => {
-            const parentDiv = document.createElement('div');
-            parentDiv.id = "shouldBeFilteredOut";
-            parentDiv.innerHTML = `<div id="myAddressDiv">3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy</div>`;
+            const div = createElement('<div>3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy</div>');
 
-            const addressNodes = findAddressNodes(parentDiv.children[0]);
-            expect(addressNodes).toEqual([parentDiv.children[0].childNodes[0]]);
+            const addressNodes = findAddressNodes(div);
+            expect(addressNodes).toEqual([div.childNodes[0]]);
+            expect(addressNodes[0]).toBe(div.childNodes[0]);
         });
 
         it('should return div when given a div with valid address and white spaces', () => {
-            const parentDiv = document.createElement('div');
-            parentDiv.id = "shouldBeFilteredOut";
-            parentDiv.innerHTML = `<div id="myAddressDiv">   3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy     </div>`;
+            const div = createElement('<div>   3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy     </div>');
 
-            const addressNodes = findAddressNodes(parentDiv.children[0]);
-            expect(addressNodes).toEqual([parentDiv.children[0].childNodes[0]]);
+            const addressNodes = findAddressNodes(div);
+            expect(addressNodes).toEqual([div.childNodes[0]]);
+            expect(addressNodes[0]).toBe(div.childNodes[0]);
         });
 
         it('should return div when given a div with valid address and period sign', () => {
-            const parentDiv = document.createElement('div');
-            parentDiv.id = "shouldBeFilteredOut";
-            parentDiv.innerHTML = `<div id="myAddressDiv">3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy.</div>`;
+            const div = createElement('<div>3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy.</div>');
 
-            const addressNodes = findAddressNodes(parentDiv.children[0]);
-            expect(addressNodes).toEqual([parentDiv.children[0].childNodes[0]]);
+            const addressNodes = findAddressNodes(div);
+            expect(addressNodes).toEqual([div.childNodes[0]]);
+            expect(addressNodes[0]).toBe(div.childNodes[0]);
         });
 
-        it('should return input when given a input with valid address value', () => {
-            const parentDiv = document.createElement('div');
-            parentDiv.id = "shouldBeFilteredOut";
-            parentDiv.innerHTML = `<input id="myAddressInput" value="3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy">`;
+        it('should only return leaf elements', () => {
+            const div = createElement('<div>3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy</div><div><div>3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy</div></div>').parentElement;
 
-            const addressNodes = findAddressNodes(parentDiv.children[0]);
-            expect(addressNodes).toEqual([parentDiv.children[0]]);
-        });
-
-        it('should filter out ancestors of valid elements', () => {
-            const parentDiv = document.createElement('div');
-            parentDiv.id = "shouldBeFilteredOut";
-            parentDiv.innerHTML = `<div id="myAddressDiv">3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy</div><div id="shouldBeFilteredOut2"><div id="myAddressDiv2">3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy</div></div>`;
-
-            const addressNodes = findAddressNodes(parentDiv);
-            expect(addressNodes).toEqual([parentDiv.children[0].childNodes[0], parentDiv.children[1].children[0].childNodes[0]]);
+            const addressNodes = findAddressNodes(div);
+            expect(addressNodes).toEqual([div.children[0].childNodes[0], div.children[1].children[0].childNodes[0]]);
+            expect(addressNodes[0]).toBe(div.children[0].childNodes[0]);
+            expect(addressNodes[1]).toBe(div.children[1].children[0].childNodes[0]);
         });
     });
 });
