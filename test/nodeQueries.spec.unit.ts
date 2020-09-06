@@ -24,6 +24,15 @@ describe('nodeQueries', () => {
             expect(addressNodes).toEqual([parentDiv.children[0].childNodes[0]]);
         });
 
+        it('should return div when given a div with valid address and period sign', () => {
+            const parentDiv = document.createElement('div');
+            parentDiv.id = "shouldBeFilteredOut";
+            parentDiv.innerHTML = `<div id="myAddressDiv">3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy.</div>`;
+
+            const addressNodes = findAddressNodes(parentDiv.children[0]);
+            expect(addressNodes).toEqual([parentDiv.children[0].childNodes[0]]);
+        });
+
         it('should return input when given a input with valid address value', () => {
             const parentDiv = document.createElement('div');
             parentDiv.id = "shouldBeFilteredOut";
@@ -32,7 +41,6 @@ describe('nodeQueries', () => {
             const addressNodes = findAddressNodes(parentDiv.children[0]);
             expect(addressNodes).toEqual([parentDiv.children[0]]);
         });
-
 
         it('should filter out ancestors of valid elements', () => {
             const parentDiv = document.createElement('div');

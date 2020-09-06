@@ -11,7 +11,7 @@ function findAdressNodesRecursive(node: Node, addressNodes: Node[]): void {
     }
 }
 
-export function findAddressNodes(root: Element): Element[] {
+export function findAddressNodes(root: Element): Node[] {
     const nodes: Element[] = [];
     findAdressNodesRecursive(root, nodes);
 
