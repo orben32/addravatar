@@ -1,17 +1,12 @@
-type TextValueGetter = (node: Element) => string;
-
-const getters: TextValueGetter[] = [
-    (node: Element) => (node as HTMLInputElement).value,
-    (node: Element) => node.textContent,
-];
-
-export function getText(element: Element): string {
-    for (const getter of getters) {
-        const text = getter(element);
-        if (text) {
-            return text.trim();
-        }
+function getRawText(node: Node): string {
+    if (node.nodeType === 3) {
+        return node.textContent;
+    } else {
+        return (node as HTMLInputElement).value;
     }
+}
 
-    return null;
+export function getText(node: Node): string {
+    const rawText = getRawText(node);
+    return rawText && rawText.trim().replace('.', '');
 }

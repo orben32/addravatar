@@ -18,8 +18,8 @@ function createExtension() {
     if (avatars) {
       removeAvatars();
     }
-    const elements = findAddressNodes(document.body);
-    avatars = elements.map(e => addAvatarElement(e as HTMLElement));
+    const nodes = findAddressNodes(document.body);
+    avatars = nodes.map(node => addAvatarElement(node));
   };
 
   window.chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {

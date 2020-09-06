@@ -6,11 +6,21 @@ const createPixelValue = (value: number) => `${value}px`;
 const avatarWidth = 25;
 const zIndex = 9999;
 
-export function createAvatarElement(addressElement: HTMLElement): Element {
+function getBoundingClientRect(node: Node): DOMRect {
+    if (node.nodeType === 3) {
+        const range = document.createRange();
+        range.selectNode(node);
+        return range.getBoundingClientRect();
+    } else {
+        return (node as Element).getBoundingClientRect();
+    }
+}
+
+export function createAvatarElement(addressNode: Node): Element {
     const img = document.createElement('img');
-    img.src = createAvatarSource(getText(addressElement));
+    img.src = createAvatarSource(getText(addressNode));
     img.style.position = 'absolute';
-    const clientRect = addressElement.getBoundingClientRect();
+    const clientRect = getBoundingClientRect(addressNode);
     img.style.left = createPixelValue(clientRect.left + clientRect.width + 4);
     const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
     img.style.top = createPixelValue(clientRect.top - 3 + scrollTop);
@@ -30,8 +40,8 @@ export function createAvatarElement(addressElement: HTMLElement): Element {
     return img;
 }
 
-export function addAvatarElement(addressElement: HTMLElement): Element {
-    const avatarElement = createAvatarElement(addressElement);
+export function addAvatarElement(addressNode: Node): Element {
+    const avatarElement = createAvatarElement(addressNode);
     document.body.appendChild(avatarElement);
     return avatarElement;
 }
