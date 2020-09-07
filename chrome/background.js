@@ -1,7 +1,7 @@
 chrome.browserAction.onClicked.addListener(() => {
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-        chrome.tabs.sendMessage(tabs[0].id, {action: "add_avatars"}, function(response) {
-            return true;
-        });  
-    });
+    chrome.tabs.query({}, function(tabs) {
+        for (const tab of tabs) {
+            chrome.tabs.sendMessage(tab.id, {action: "add_avatars"});            
+        }
+    });    
 });
