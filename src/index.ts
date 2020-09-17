@@ -3,7 +3,6 @@ import { addAvatarElement } from "./avatarElementFactory";
 
 function createExtension() {
   let avatars: Element[];
-  let showAvatars = false;
 
   function removeAvatars() {
     if (avatars) {
@@ -24,12 +23,9 @@ function createExtension() {
 
   window.chrome.runtime.onMessage.addListener((msg) => {
     if (msg.action == 'add_avatars') {
-      showAvatars = !showAvatars;
-      if (showAvatars) {
-        addAvatars();
-      } else {
-        removeAvatars();
-      }
+      addAvatars();
+    } else if (msg.action == 'hide_avatars') {
+      removeAvatars();  
     }
   });
 }
