@@ -3,11 +3,11 @@
   <head>
     <style>
       body {
-        background-color: #23263B;
+        background-color: #f7931a;
       }
 
       .actions-container {
-        width: 120px;
+        width: 150px;
       }
 
       .action-button {
@@ -17,17 +17,29 @@
         height: 30px;
         width: 100%;
         cursor: pointer;
+        position: relative;
       }
 
       .action-button:hover {
-        background-color: #2e3149;
+        background-color: #ffa436;
+      }
+
+      img {
+        width: 20px;
+        position: absolute;
+        left: 5px;
+        top: 5px;
+      }
+
+      .hide-icon {
+        opacity: 0.3;
       }
     </style>
   </head>
   <body>
     <div class="actions-container">
-      <button id="placeAvatars" class="action-button">Place avatars</button>
-      <button id="hideAvatars" class="action-button">Hide avatars</button>
+      <button id="placeAvatars" class="action-button"><img src="icon.png"/>Place avatars</button>
+      <button id="hideAvatars" class="action-button"><img class="hide-icon" src="icon.png"/>Hide avatars</button>
     </div>
     <script src="popup.js"></script>
   </body>
