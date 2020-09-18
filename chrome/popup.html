@@ -1,46 +1,99 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <style>
-      body {
-        background-color: #f7931a;
-      }
 
-      .actions-container {
-        width: 150px;
-      }
+<head>
+  <style>
+    body {
+      background-color: #f7931a;
+      margin: 6px;
+    }
 
-      .action-button {
-        background-color: transparent;
-        color: white;
-        border: none;
-        height: 30px;
-        width: 100%;
-        cursor: pointer;
-        position: relative;
-      }
+    h1 {
+      font-size: 20px;
+      margin-left: 6px;
+      margin-bottom: 6px;
+      color: #2d2d2d;
+    }
 
-      .action-button:hover {
-        background-color: #ffa436;
-      }
+    .actions-container {
+      width: 160px;
+    }
 
-      img {
-        width: 20px;
-        position: absolute;
-        left: 5px;
-        top: 5px;
-      }
+    .action-button {
+      background-color: transparent;
+      color: white;
+      border: none;
+      height: 30px;
+      width: 100%;
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
 
-      .hide-icon {
-        opacity: 0.3;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="actions-container">
-      <button id="placeAvatars" class="action-button"><img src="icon.png"/>Place avatars</button>
-      <button id="hideAvatars" class="action-button"><img class="hide-icon" src="icon.png"/>Hide avatars</button>
-    </div>
-    <script src="popup.js"></script>
-  </body>
+    .action-button:hover {
+      background-color: #ffa436;
+    }
+
+    img {
+      width: 20px;
+    }
+
+    span {
+      margin-left: 6px;
+    }
+
+    .hide-icon {
+      opacity: 0.3;
+    }
+
+    .action-button .tooltiptext {
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 300ms;
+      transition-delay: 1s;
+      width: 120px;
+      background-color: black;
+      color: #fff;
+      text-align: center;
+      padding: 5px 0;
+      border-radius: 6px;
+    
+      position: absolute;
+      z-index: 1;
+      top: -40px;
+    }
+
+    .action-button:hover .tooltiptext {
+      visibility: visible;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Addravatar</h1>
+  <div class="actions-container">
+    <button id="placeAvatars" class="action-button">
+      <img src="icon.png" />
+      <span>
+        Show avatars
+      </span>
+      <span class="tooltiptext">
+        Show avatars next to identified addresses. Click again to refresh
+      </span>
+    </button>
+    <button id="hideAvatars" class="action-button">
+      <img class="hide-icon" src="icon.png" />
+      <span>
+        Hide avatars
+      </span>
+      <span class="tooltiptext">
+        Hide all avatars
+      </span>
+    </button>
+  </div>
+  <script src="popup.js"></script>
+</body>
+
 </html>
