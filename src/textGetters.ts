@@ -8,5 +8,5 @@ function getRawText(node: Node): string {
 
 export function getText(node: Node): string {
     const rawText = getRawText(node);
-    return rawText && rawText.trim().replace('.', '');
+    return rawText && String(rawText).trim().replace('.', '');
 }
