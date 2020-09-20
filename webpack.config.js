@@ -18,6 +18,7 @@ const CopyPlugin = require("copy-webpack-plugin");
           { from: 'chrome/popup.js', to: 'popup.js' },
           { from: 'chrome/popup.html', to: 'popup.html' },
           { from: 'chrome/icon.png', to: 'icon.png' },
+          { from: 'chrome/manifest.json', to: 'manifest.json' },
         ],
   
       }),
