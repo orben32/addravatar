@@ -21,7 +21,7 @@
   "background": {
     "persistent": false,
     "scripts": [
-      "myBackground.js"
+      "background.js"
     ]
   },
   "description": "Easily verify bitcoin address equality by assigning each address an avatar",

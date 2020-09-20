@@ -14,7 +14,7 @@ const CopyPlugin = require("copy-webpack-plugin");
       }),
       new CopyPlugin({
         patterns: [
-          { from: 'chrome/background.js', to: 'myBackground.js' },
+          { from: 'chrome/background.js', to: 'background.js' },
           { from: 'chrome/popup.js', to: 'popup.js' },
           { from: 'chrome/popup.html', to: 'popup.html' },
           { from: 'chrome/icon.png', to: 'icon.png' },
