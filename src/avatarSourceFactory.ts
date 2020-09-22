@@ -1,6 +1,5 @@
-import md5 = require('md5');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const Identicon = require('identicon.js');
+import md5 from 'md5';
+import Identicon from 'identicon.js';
 
 export function createAvatarSource(address: string): string {
     const hash = md5(address);
