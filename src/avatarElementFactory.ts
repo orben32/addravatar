@@ -26,6 +26,7 @@ export function createAvatarElement(addressNode: Node): Element {
     img.style.top = createPixelValue(clientRect.top - 3 + scrollTop);
     img.style.width = createPixelValue(avatarWidth);
     img.style.zIndex = String(zIndex);
+    img.classList.add('addravatar-avatar');
 
     img.addEventListener('mouseenter', e => {
         (e.target as HTMLElement).style.width = createPixelValue(avatarWidth * 2);
