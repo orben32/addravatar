@@ -1,4 +1,5 @@
 import { addAvatars, removeAvatars } from "./avatarStore";
+import { observeUpdates } from "./avatarUpdates";
 
 function createExtension() {
   window.chrome.runtime.onMessage.addListener((msg) => {
@@ -9,22 +10,8 @@ function createExtension() {
     }
   });
 
-  let oldHref = document.location.href;
   window.addEventListener('load', () => {
-    const bodyList = document.querySelector("body")
-    const observer = new MutationObserver(() => {
-      if (oldHref != document.location.href) {
-        oldHref = document.location.href;
-        removeAvatars();
-      }
-    });
-
-    const config = {
-      childList: true,
-      subtree: true
-    };
-
-    observer.observe(bodyList, config);
+    observeUpdates();    
   });
 }
 
