@@ -6,3 +6,7 @@
 
 1BvBMSEYstWetqTFn4Au4m4GFg7xJaNVN2
 ![avatar2](https://www.gravatar.com/avatar/47e02f6db8f34836883e9243b4cdcac6?d=identicon)
+
+
+#### The extension in the Google Chrome store
+https://chrome.google.com/webstore/detail/addravatar/ipflppnlbohmcekjgjpfncjkjnphceel
