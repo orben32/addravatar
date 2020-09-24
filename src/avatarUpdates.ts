@@ -1,19 +1,50 @@
-import { removeAvatars } from "./avatarStore";
+import debounce from "lodash/debounce";
+import some from "lodash/some";
+import every from "lodash/every";
+import { addAvatars, removeAvatars } from "./avatarStore";
+
+const isAvatar = (element: HTMLElement) =>
+  element.className === "addravatar-avatar";
+
+const hasAllAvatars = (nodeList: NodeList) =>
+  every(Array.from(nodeList), (node) => isAvatar(node as HTMLElement));
+
+const isSelfMutation = (mutation: MutationRecord) => {
+  if (isAvatar(mutation.target as HTMLElement)) {
+    return true;
+  }
+  if (mutation.type !== "childList") {
+    return false;
+  }
+  return (
+    hasAllAvatars(mutation.addedNodes) && hasAllAvatars(mutation.removedNodes)
+  );
+};
 
 export function observeUpdates(): void {
-    let oldHref = document.location.href;
-    const bodyList = document.querySelector('body');
-    const observer = new MutationObserver(() => {
-      if (oldHref != document.location.href) {
-        oldHref = document.location.href;
-        removeAvatars();
-      }
-    });
+  const config = {
+    childList: true,
+    subtree: true,
+    characterData: true,
+    attributes: true,
+  };
 
-    const config = {
-      childList: true,
-      subtree: true
-    };
+  const refreshAndObserve = () => {
+    removeAvatars();
+    addAvatars();
+  };
 
-    observer.observe(bodyList, config);
+  const refreshAndObserveDebounced = debounce(refreshAndObserve, 50);
+  const bodyList = document.querySelector("body");
+  const observer = new MutationObserver((mutations) => {
+    console.log({ mutations });
+    if (some(mutations, (mutation) => !isSelfMutation(mutation))) {
+      refreshAndObserveDebounced();
+    }
+  });
+
+  observer.observe(bodyList, config);
+  document.body.addEventListener("change", () => {
+    refreshAndObserveDebounced();
+  });
 }
