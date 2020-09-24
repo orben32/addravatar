@@ -1,4 +1,4 @@
-import debounce from "lodash/debounce";
+import throttle from "lodash/throttle";
 import some from "lodash/some";
 import every from "lodash/every";
 import { addAvatars, removeAvatars } from "./avatarStore";
@@ -34,17 +34,16 @@ export function observeUpdates(): void {
     addAvatars();
   };
 
-  const refreshAndObserveDebounced = debounce(refreshAndObserve, 50);
+  const refreshAndObserveThrottled = throttle(refreshAndObserve, 50);
   const bodyList = document.querySelector("body");
   const observer = new MutationObserver((mutations) => {
-    console.log({ mutations });
     if (some(mutations, (mutation) => !isSelfMutation(mutation))) {
-      refreshAndObserveDebounced();
+      refreshAndObserveThrottled();
     }
   });
 
   observer.observe(bodyList, config);
   document.body.addEventListener("change", () => {
-    refreshAndObserveDebounced();
+    refreshAndObserveThrottled();
   });
 }
