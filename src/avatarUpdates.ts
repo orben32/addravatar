@@ -1,13 +1,11 @@
 import throttle from "lodash/throttle";
-import some from "lodash/some";
-import every from "lodash/every";
 import { updateAvatars } from "./avatarStore";
 
 const isAvatar = (element: HTMLElement) =>
   element.className === "addravatar-avatar";
 
 const hasAllAvatars = (nodeList: NodeList) =>
-  every(Array.from(nodeList), (node) => isAvatar(node as HTMLElement));
+  Array.from(nodeList).every((node) => isAvatar(node as HTMLElement));
 
 const isSelfMutation = (mutation: MutationRecord) => {
   if (isAvatar(mutation.target as HTMLElement)) {
@@ -27,7 +25,7 @@ export function observeUpdates(): void {
   updateAvatars();
 
   const observer = new MutationObserver((mutations) => {
-    if (some(mutations, (mutation) => !isSelfMutation(mutation))) {
+    if (mutations.some((mutation) => !isSelfMutation(mutation))) {
       updateThrottled();
     }
   });
