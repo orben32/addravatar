@@ -22,23 +22,22 @@ const isSelfMutation = (mutation: MutationRecord) => {
 };
 
 export function observeUpdates(): void {
-  const config = {
-    childList: true,
-    subtree: true,
-    characterData: true,
-    attributes: true,
-  };
-
   const updateThrottled = throttle(updateAvatars, 50);
-  const bodyList = document.querySelector("body");
+
+  updateAvatars();
+
   const observer = new MutationObserver((mutations) => {
     if (some(mutations, (mutation) => !isSelfMutation(mutation))) {
       updateThrottled();
     }
   });
 
-  updateAvatars();
-  observer.observe(bodyList, config);
+  observer.observe(document.querySelector("body"), {
+    childList: true,
+    subtree: true,
+    characterData: true,
+    attributes: true,
+  });
   document.body.addEventListener("change", () => {
     updateThrottled();
   });
