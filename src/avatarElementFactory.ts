@@ -16,16 +16,20 @@ function getBoundingClientRect(node: Node): DOMRect {
     }
 }
 
-export function createAvatarElement(addressNode: Node): Element {
-    const img = document.createElement('img');
-    img.src = createAvatarSource(getText(addressNode));
-    img.style.position = 'absolute';
+export function updateAvatar(avatar: HTMLImageElement, addressNode: Node): void {
+    avatar.src = createAvatarSource(getText(addressNode));
+    avatar.style.position = 'absolute';
     const clientRect = getBoundingClientRect(addressNode);
-    img.style.left = createPixelValue(clientRect.left + clientRect.width + 4);
+    avatar.style.left = createPixelValue(clientRect.left + clientRect.width + 4);
     const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-    img.style.top = createPixelValue(clientRect.top - 3 + scrollTop);
-    img.style.width = createPixelValue(avatarWidth);
-    img.style.zIndex = String(zIndex);
+    avatar.style.top = createPixelValue(clientRect.top - 3 + scrollTop);
+    avatar.style.width = createPixelValue(avatarWidth);
+    avatar.style.zIndex = String(zIndex);
+}
+
+export function createAvatarElement(addressNode: Node): HTMLImageElement {
+    const img = document.createElement('img');
+    updateAvatar(img, addressNode);
     img.classList.add('addravatar-avatar');
 
     img.addEventListener('mouseenter', e => {
@@ -41,7 +45,7 @@ export function createAvatarElement(addressNode: Node): Element {
     return img;
 }
 
-export function addAvatarElement(addressNode: Node): Element {
+export function addAvatarElement(addressNode: Node): HTMLImageElement {
     const avatarElement = createAvatarElement(addressNode);
     document.body.appendChild(avatarElement);
     return avatarElement;

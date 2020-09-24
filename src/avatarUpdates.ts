@@ -37,6 +37,7 @@ export function observeUpdates(): void {
     }
   });
 
+  updateAvatars();
   observer.observe(bodyList, config);
   document.body.addEventListener("change", () => {
     updateThrottled();

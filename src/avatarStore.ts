@@ -1,8 +1,8 @@
 import { findAddressNodes } from "./nodeQueries";
-import { addAvatarElement } from "./avatarElementFactory";
+import { addAvatarElement, updateAvatar } from "./avatarElementFactory";
 import { getStyle } from "./globalStyleDefinition";
 
-let avatars: Element[] = [];
+let avatars: HTMLImageElement[] = [];
 let injectedStyle: HTMLStyleElement | null = null;
 const avatarToAddressNode: WeakMap<Element, Node> = new WeakMap();
 const addressNodeToAvatar: WeakMap<Node, Element> = new WeakMap();
@@ -40,9 +40,13 @@ function updateCurrentAvatars(addressNodes: Node[]) {
   const avatarsToRemove: Element[] = [];
   for (const avatar of avatars) {
     const avatarTargetNode = avatarToAddressNode.get(avatar);
-    if (avatarTargetNode && !addressNodes.includes(avatarTargetNode)) {
-      addressNodeToAvatar.delete(avatarTargetNode);
-      avatarsToRemove.push(avatar);
+    if (avatarTargetNode) {
+      if (addressNodes.includes(avatarTargetNode)) {
+        updateAvatar(avatar, avatarTargetNode);
+      } else {
+        addressNodeToAvatar.delete(avatarTargetNode);
+        avatarsToRemove.push(avatar);
+      }
     }
   }
   for (const avatarToRemove of avatarsToRemove) {
