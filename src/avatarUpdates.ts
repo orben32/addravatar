@@ -1,5 +1,5 @@
 import throttle from "lodash/throttle";
-import { updateAvatars } from "./avatarStore";
+import { removeAvatars, updateAvatars } from "./avatarStore";
 
 const isAvatar = (element: HTMLElement) =>
   element.className === "addravatar-avatar";
@@ -19,12 +19,14 @@ const isSelfMutation = (mutation: MutationRecord) => {
   );
 };
 
+const updateThrottled = throttle(updateAvatars, 50);
+let observer: MutationObserver;
+
 export function observeUpdates(): void {
-  const updateThrottled = throttle(updateAvatars, 50);
 
   updateAvatars();
 
-  const observer = new MutationObserver((mutations) => {
+  observer = new MutationObserver((mutations) => {
     if (mutations.some((mutation) => !isSelfMutation(mutation))) {
       updateThrottled();
     }
@@ -36,10 +38,20 @@ export function observeUpdates(): void {
     characterData: true,
     attributes: true,
   });
-  document.body.addEventListener("change", () => {
-    updateThrottled();
-  });
-  document.body.addEventListener("keyup", () => {
-    updateThrottled();
-  });
+  document.body.addEventListener("change", onUpdate);
+  document.body.addEventListener("keyup", onUpdate);
+}
+
+function onUpdate() {
+  updateThrottled();
+}
+
+export function disconnect(): void {
+  removeAvatars();
+  if (observer) {
+    observer.disconnect();
+  }
+
+  document.body.removeEventListener("change", onUpdate);
+  document.body.removeEventListener("keyup", onUpdate);
 }

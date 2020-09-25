@@ -1,17 +1,20 @@
-import { addAvatars, removeAvatars } from "./avatarStore";
-import { observeUpdates } from "./avatarUpdates";
+import { observeUpdates, disconnect } from "./avatarUpdates";
 
 function createExtension() {
   window.chrome.runtime.onMessage.addListener((msg) => {
     if (msg.action == 'add_avatars') {
-      addAvatars();
+      observeUpdates();
     } else if (msg.action == 'hide_avatars') {
-      removeAvatars();  
+      disconnect();
     }
   });
 
   window.addEventListener('load', () => {
-    observeUpdates();    
+    window.chrome.storage.sync.get((items) => {
+      if (items.showAvatars) {
+        observeUpdates();
+      }
+    });
   });
 }
 

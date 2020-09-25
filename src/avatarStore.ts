@@ -11,6 +11,11 @@ export function removeAvatars(): void {
   if (avatars) {
     for (const element of avatars) {
       element.parentElement.removeChild(element);
+      const addressNode = avatarToAddressNode.get(element);
+      if (addressNode) {
+        addressNodeToAvatar.delete(addressNode);
+      }
+      avatarToAddressNode.delete(element);
     }
     avatars = null;
   }
@@ -27,14 +32,6 @@ const injectGlobalStyle = () => {
   const ref = document.querySelector("script");
   ref.parentNode.insertBefore(injectedStyle, ref);
 };
-
-export function addAvatars(): void {
-  removeAvatars();
-  injectGlobalStyle();
-
-  const nodes = findAddressNodes(document.body);
-  avatars = nodes.map((node) => addAvatarElement(node));
-}
 
 function updateCurrentAvatars(addressNodes: Node[]) {
   const avatarsToRemove: Element[] = [];
@@ -60,7 +57,11 @@ function createNewAvatars(addressNodes: Node[]) {
   for (const addressNode of addressNodes) {
     if (!addressNodeToAvatar.has(addressNode)) {
       const avatar = addAvatarElement(addressNode);
-      avatars.push(avatar);
+      if (avatars) {
+        avatars.push(avatar);
+      } else {
+        avatars = [avatar];
+      }
       avatarToAddressNode.set(avatar, addressNode);
       addressNodeToAvatar.set(addressNode, avatar);
     }
@@ -68,9 +69,12 @@ function createNewAvatars(addressNodes: Node[]) {
 }
 
 export function updateAvatars(): void {
+  if (!injectedStyle) {
+    injectGlobalStyle();
+  }
   const nodes = findAddressNodes(document.body);
-  updateCurrentAvatars(nodes);
+  if (avatars) {
+    updateCurrentAvatars(nodes);
+  }
   createNewAvatars(nodes);
 }
-
-injectGlobalStyle();

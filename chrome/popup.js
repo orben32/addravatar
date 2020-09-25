@@ -9,11 +9,17 @@ function sendMessageToTabs(msg) {
 const placeAvatarsBtn = document.getElementById('placeAvatars');
 placeAvatarsBtn.onclick = function() {
     sendMessageToTabs({ action: "add_avatars" });
+    chrome.storage.sync.set({
+        showAvatars: true,
+    });
     window.close();
 };
 
 const hideAvatarsBtn = document.getElementById('hideAvatars');
 hideAvatarsBtn.onclick = function() {
     sendMessageToTabs({ action: "hide_avatars" });
+    chrome.storage.sync.set({
+        showAvatars: false,
+    });
     window.close();
 };
