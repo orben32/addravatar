@@ -1,2 +1,5 @@
 chrome.browserAction.setBadgeText({text: 'b'});
-chrome.browserAction.setBadgeBackgroundColor({color: '#f2a900'});
+
+chrome.storage.sync.get((items) => {
+    chrome.browserAction.setBadgeBackgroundColor({color: items.showAvatars !== false ? '#f2a900' : '#8b4c00'});
+});
