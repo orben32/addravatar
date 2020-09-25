@@ -11,7 +11,7 @@ function createExtension() {
 
   window.addEventListener('load', () => {
     window.chrome.storage.sync.get((items) => {
-      if (items.showAvatars) {
+      if (items.showAvatars !== false) {
         observeUpdates();
       }
     });

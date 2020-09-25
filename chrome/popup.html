@@ -6,17 +6,19 @@
     body {
       background-color: #f7931a;
       margin: 6px;
+      padding: 6px;
+      width: 180px;
     }
 
     h1 {
       font-size: 20px;
-      margin-left: 6px;
+      margin-top: 0;
       margin-bottom: 6px;
       color: #2d2d2d;
     }
 
     .actions-container {
-      width: 160px;
+      margin-top: 12px;
     }
 
     .action-button {
@@ -27,8 +29,9 @@
       width: 100%;
       cursor: pointer;
       position: relative;
-      display: flex;
+      display: none;
       align-items: center;
+      padding: 0;
     }
 
     .action-button:hover {
@@ -73,6 +76,7 @@
 
 <body>
   <h1>Addravatar</h1>
+  <div id="status">Addravatars displayed on sites</div>
   <div class="actions-container">
     <button id="placeAvatars" class="action-button">
       <img src="icons/icon48.png" />
