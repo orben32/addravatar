@@ -18,8 +18,8 @@ function getBoundingClientRect(node: Node): DOMRect {
     }
 }
 
-function setPosition(avatar: HTMLElement, addressNode: Node) {
-    const clientRect = getBoundingClientRect(addressNode);
+function setPosition(avatar: HTMLElement, addressNode: Node, nodeBB?: DOMRect) {
+    const clientRect = nodeBB || getBoundingClientRect(addressNode);
     avatar.style.left = createPixelValue(clientRect.left + clientRect.width + 8);
     const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
     avatar.style.width = createPixelValue(AVATAR_SIZE);
@@ -27,20 +27,24 @@ function setPosition(avatar: HTMLElement, addressNode: Node) {
     avatar.style.top = createPixelValue(clientRect.top + scrollTop + ((clientRect.height - AVATAR_SIZE) / 2));
 }
 
-export function updateAvatar(avatar: Element, addressNode: Node): void {
+export function updateAvatar(avatar: Element, addressNode: Node, nodeBB?: DOMRect): void {
     if (avatar.nodeName.toLowerCase() !== 'img') {
         throw new Error('Element is not an Image');
     }
     const imageElement = avatar as HTMLImageElement;
     imageElement.src = createAvatarSource(getText(addressNode));
-    setPosition(imageElement, addressNode);
+    setPosition(imageElement, addressNode, nodeBB);
     imageElement.style.zIndex = String(AVATAR_ZINDEX);
 }
 
 export function createAvatarElement(addressNode: Node): Element {
+    const nodeBB = getBoundingClientRect(addressNode);
+    if (nodeBB.height == 0 || nodeBB.width == 0) {
+        return null;
+    }
     const img = document.createElement('img');
     img.style.position = 'absolute';
-    updateAvatar(img, addressNode);
+    updateAvatar(img, addressNode, nodeBB);
     img.classList.add('addravatar-avatar');
 
     img.addEventListener('mouseenter', e => {

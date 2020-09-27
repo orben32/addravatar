@@ -28,7 +28,9 @@ export function removeAvatars(): void {
 
 function addAvatarElement(addressNode: Node): Element {
   const avatarElement = createAvatarElement(addressNode);
-  document.body.appendChild(avatarElement);
+  if (avatarElement) {
+    document.body.appendChild(avatarElement);
+  }
   return avatarElement;
 }
 
@@ -63,13 +65,15 @@ function createNewAvatars(addressNodes: Node[]) {
   for (const addressNode of addressNodes) {
     if (!addressNodeToAvatar.has(addressNode)) {
       const avatar = addAvatarElement(addressNode);
-      if (avatars) {
-        avatars.push(avatar);
-      } else {
-        avatars = [avatar];
+      if (avatar) {
+        if (avatars) {
+          avatars.push(avatar);
+        } else {
+          avatars = [avatar];
+        }
+        avatarToAddressNode.set(avatar, addressNode);
+        addressNodeToAvatar.set(addressNode, avatar);
       }
-      avatarToAddressNode.set(avatar, addressNode);
-      addressNodeToAvatar.set(addressNode, avatar);
     }
   }
 }
