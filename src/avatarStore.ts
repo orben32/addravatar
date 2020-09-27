@@ -2,7 +2,7 @@ import { findAddressNodes } from "./nodeQueries";
 import { addAvatarElement, updateAvatar } from "./avatarElementFactory";
 import { getStyle } from "./globalStyleDefinition";
 
-let avatars: HTMLImageElement[] = [];
+let avatars: Element[] = [];
 let injectedStyle: HTMLStyleElement | null = null;
 const avatarToAddressNode: WeakMap<Element, Node> = new WeakMap();
 const addressNodeToAvatar: WeakMap<Node, Element> = new WeakMap();
