@@ -57,9 +57,3 @@ export function createAvatarElement(addressNode: Node): Element {
 
     return img;
 }
-
-export function addAvatarElement(addressNode: Node): Element {
-    const avatarElement = createAvatarElement(addressNode);
-    document.body.appendChild(avatarElement);
-    return avatarElement;
-}

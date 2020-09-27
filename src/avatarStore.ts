@@ -1,5 +1,5 @@
 import { findAddressNodes } from "./nodeQueries";
-import { addAvatarElement, updateAvatar } from "./avatarElementFactory";
+import { updateAvatar, createAvatarElement } from "./avatarElementFactory";
 import { getStyle } from "./globalStyleDefinition";
 
 let avatars: Element[] = [];
@@ -24,6 +24,12 @@ export function removeAvatars(): void {
     injectedStyle.parentElement.removeChild(injectedStyle);
     injectedStyle = null;
   }
+}
+
+function addAvatarElement(addressNode: Node): Element {
+  const avatarElement = createAvatarElement(addressNode);
+  document.body.appendChild(avatarElement);
+  return avatarElement;
 }
 
 const injectGlobalStyle = () => {
