@@ -23,7 +23,6 @@ const updateThrottled = throttle(updateAvatars, 50);
 let observer: MutationObserver;
 
 export function observeUpdates(): void {
-
   updateAvatars();
 
   observer = new MutationObserver((mutations) => {
@@ -42,7 +41,7 @@ export function observeUpdates(): void {
   document.body.addEventListener("keyup", onUpdate);
 }
 
-function onUpdate() {
+export function onUpdate(): void {
   updateThrottled();
 }
 

@@ -1,5 +1,6 @@
 import { createAvatarSource } from "./avatarSourceFactory";
 import { getText } from "./textGetters";
+import { getPlacement } from "./optionsStore";
 
 const createPixelValue = (value: number) => `${value}px`;
 
@@ -18,9 +19,11 @@ function getBoundingClientRect(node: Node): DOMRect {
     }
 }
 
+const getAvatarLeft = (nodeBB: DOMRect) => getPlacement() === 'left' ? nodeBB.left - AVATAR_SIZE - 8 : nodeBB.left + nodeBB.width + 8;
+
 function setPosition(avatar: HTMLElement, addressNode: Node, nodeBB?: DOMRect) {
     const clientRect = nodeBB || getBoundingClientRect(addressNode);
-    avatar.style.left = createPixelValue(clientRect.left + clientRect.width + 8);
+    avatar.style.left = createPixelValue(getAvatarLeft(clientRect));
     const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
     avatar.style.width = createPixelValue(AVATAR_SIZE);
     avatar.style.height = createPixelValue(AVATAR_SIZE);
