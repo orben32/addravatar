@@ -36,13 +36,21 @@ describe('nodeQueries', () => {
             expect(addressNodes[0]).toBe(div.childNodes[0]);
         });
 
-        it('should only return leaf elements', () => {
+        it('should not return ancestors with matching text', () => {
             const div = createElement('<div>3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy</div><div><div>3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy</div></div>').parentElement;
 
             const addressNodes = findAddressNodes(div);
             expect(addressNodes).toEqual([div.children[0].childNodes[0], div.children[1].children[0].childNodes[0]]);
             expect(addressNodes[0]).toBe(div.children[0].childNodes[0]);
             expect(addressNodes[1]).toBe(div.children[1].children[0].childNodes[0]);
+        });
+
+        it('should return node at maximum depth with address textContent', () => {
+            const div = createElement('<div><span>3J98t1WpEZ73CNmQviecrnyiWrnqRh</span><span>WNLy</span></div>').parentElement;
+
+            const addressNodes = findAddressNodes(div);
+            expect(addressNodes).toEqual([div.children[0]]);
+            expect(addressNodes[0]).toBe(div.children[0]);
         });
     });
 });

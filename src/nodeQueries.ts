@@ -4,10 +4,13 @@ import { getText } from "./textGetters";
 function findAdressNodesRecursive(node: Node, addressNodes: Node[]): void {
     if (matchesBitcoinAddress(getText(node))) {
         addressNodes.push(node);
-    } else {
-        for (const childNode of Array.from(node.childNodes)) {
-            findAdressNodesRecursive(childNode, addressNodes);
+        const index = addressNodes.indexOf(node.parentNode);
+        if (index >= 0) {
+            addressNodes.splice(index, 1);
         }
+    }
+    for (const childNode of Array.from(node.childNodes)) {
+        findAdressNodesRecursive(childNode, addressNodes);
     }
 }
 
