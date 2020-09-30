@@ -8,5 +8,10 @@
 ![avatar2](avatar2.png)
 
 
-#### The extension in the Google Chrome store
+### The extension in the Google Chrome store
 https://chrome.google.com/webstore/detail/addravatar/ipflppnlbohmcekjgjpfncjkjnphceel
+
+### Usage
+- install dependencies by `npm install`
+- build by `npm run build`
+- install on Chrome: In extensions tab click "Load Unpacked" and pick the `dist` directory
