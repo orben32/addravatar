@@ -1,4 +1,4 @@
-import throttle from "lodash/throttle";
+import debounce from "lodash/debounce";
 import { removeAvatars, updateAvatars } from "./avatarStore";
 
 const isAvatar = (element: HTMLElement) =>
@@ -19,7 +19,7 @@ const isSelfMutation = (mutation: MutationRecord) => {
   );
 };
 
-const updateThrottled = throttle(updateAvatars, 50);
+const updateDebounced = debounce(updateAvatars, 500);
 let observer: MutationObserver;
 
 export function observeUpdates(): void {
@@ -27,7 +27,7 @@ export function observeUpdates(): void {
 
   observer = new MutationObserver((mutations) => {
     if (mutations.some((mutation) => !isSelfMutation(mutation))) {
-      updateThrottled();
+      updateDebounced();
     }
   });
 
@@ -42,7 +42,7 @@ export function observeUpdates(): void {
 }
 
 export function onUpdate(): void {
-  updateThrottled();
+  updateDebounced();
 }
 
 export function disconnect(): void {
